@@ -1,0 +1,11 @@
+./my-experiment/node_modules/
+./my-experiment/packages/
+./my-experiment/settings.json
+./my-experiment/production.json
+./my-experiment/prod.json
+./my-experiment/staging.json
+./my-experiment/development.json
+./my-experiment/dev.json
+./my-experiment/local.json
+.idea/workspace.xml
+./my-experiment/.meteor/
