@@ -7,5 +7,6 @@
 ./my-experiment/development.json
 ./my-experiment/dev.json
 ./my-experiment/local.json
-.idea/workspace.xml
 ./my-experiment/.meteor/
+.idea/
+
