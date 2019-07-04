@@ -11,7 +11,18 @@ Empirica.onRoundStart((game, round, players) => {});
 
 // onStageStart is triggered before each stage starts.
 // It receives the same options as onRoundStart, and the stage that is starting.
-Empirica.onStageStart((game, round, stage, players) => {});
+Empirica.onStageStart((game, round, stage, players) => {
+    // assign a random goal to each player;
+    if (game.treatment.hasPrompt)
+    {
+        const prompts = stage.get("prompts");
+        players.forEach((player) => {
+            player.set("goal", _.shuffle(prompts)[0]);
+            console.log("player "+player.get("name")+" get the prompt "+ player.get("goal").SVO);
+        });
+    }
+
+});
 
 // onStageEnd is triggered after each stage.
 // It receives the same options as onRoundEnd, and the stage that just ended.
@@ -20,11 +31,11 @@ Empirica.onStageEnd((game, round, stage, players) => {});
 // onRoundEnd is triggered after each round.
 // It receives the same options as onGameEnd, and the round that just ended.
 Empirica.onRoundEnd((game, round, players) => {
-  players.forEach(player => {
-    const value = player.round.get("value") || 0;
-    const prevScore = player.get("score") || 0;
-    player.set("score", prevScore + value);
-  });
+  // players.forEach(player => {
+  //   const value = player.round.get("value") || 0;
+  //   const prevScore = player.get("score") || 0;
+  //   player.set("score", prevScore + value);
+  // });
 });
 
 // onGameEnd is triggered when the game ends.
@@ -52,22 +63,39 @@ Empirica.onGameEnd((game, players) => {});
 
 // // onSet is called when the experiment code call the .set() method
 // // on games, rounds, stages, players, playerRounds or playerStages.
-// Empirica.onSet((
-//   game,
-//   round,
-//   stage,
-//   player, // Player who made the change
-//   target, // Object on which the change was made (eg. player.set() => player)
-//   targetType, // Type of object on which the change was made (eg. player.set() => "player")
-//   key, // Key of changed value (e.g. player.set("score", 1) => "score")
-//   value, // New value
-//   prevValue // Previous value
-// ) => {
-//   // // Example filtering
-//   // if (key !== "value") {
-//   //   return;
-//   // }
-// });
+Empirica.onSet((
+  game,
+  round,
+  stage,
+  player, // Player who made the change
+  target, // Object on which the change was made (eg. player.set() => player)
+  targetType, // Type of object on which the change was made (eg. player.set() => "player")
+  key, // Key of changed value (e.g. player.set("score", 1) => "score")
+  value, // New value
+  prevValue // Previous value
+) => {
+  // // Example filtering
+  // if (key !== "value") {
+  //   return;
+  // }
+    let players = game.players;
+    if (key === "agree") {
+        console.log(player);
+        //check if everyone is satisfied
+        let allSatisfied = true;
+        players.forEach(player => {
+            allSatisfied = player.get("agree") && allSatisfied;
+        });
+        // If so, submitconsole.log( their answer
+        if (allSatisfied) {
+            console.log("They all agree");
+            players.forEach(player => {
+                player.stage.submit();
+            });
+        }
+        return;
+    }
+});
 
 // // onAppend is called when the experiment code call the `.append()` method
 // // on games, rounds, stages, players, playerRounds or playerStages.
