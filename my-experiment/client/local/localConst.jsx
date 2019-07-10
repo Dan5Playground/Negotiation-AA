@@ -1,1 +1,1 @@
-export const contact = "cesar_neu@outlook.com"
+export const contact = "cesar_neu@outlook.com";

@@ -12,4 +12,4 @@
 .DS_Store
 ./my-experiment/.DS_Store
 ./my-experiment/.meteor/
-./my-experiment/client/local
+./my-experiment/client/local/
