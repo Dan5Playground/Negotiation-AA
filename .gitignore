@@ -9,6 +9,7 @@
 ./my-experiment/local.json
 ./my-experiment/.meteor/
 .idea/
-./my-experiment/server/localConst.js
 .DS_Store
-
+./my-experiment/.DS_Store
+./my-experiment/.meteor/
+./my-experiment/client/local

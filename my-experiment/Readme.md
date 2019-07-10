@@ -1,7 +1,7 @@
 # Experiment 
 This experiment is powered by [Empirica](https://empirica.ly/). 
 
-##Factor
+## Factor
 - playerCount(Required): single:1, pair:2
 - prompt(Required): hasPrompt, noPrompt
 - mode(Required): debug(0), production(1)
@@ -9,21 +9,21 @@ This experiment is powered by [Empirica](https://empirica.ly/).
             xlong(20min), xxlong(30min)
 - payoff: same(0), different(1)
 
-##Treatment
+## Treatment
 - prompt_debug
 - noPrompt_debug
 - prompt
 - noPrompt
 
-##Lobby Configuration
+## Lobby Configuration
 - xshort(10s), short(5min), medium(10min) and long(15min)
 - Time out type: individual
 - Extension: None
 
-##Experiment
+## Experiment
 The design of the experiment could be found at this [design doc](https://docs.google.com/document/d/1WkP7jUuyD8489S60IraNNcA4Sorv5trm-gtuLMycwM0/edit?usp=sharing)
 
-##Usage
+## Usage
 1. Download the repository (and unzip). 
 2. Go into the folder with ```cd my-experiment```
 3. Install the required dependencies `meteor npm install`

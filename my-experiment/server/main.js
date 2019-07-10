@@ -2,7 +2,8 @@ import Empirica from "meteor/empirica:core";
 import "./bots.js";
 import "./callbacks.js";
 import {negotiaitorPrompts, negotiationSetting, BATNA} from "./constants";
-import {contact} from "./localConst";
+
+
 
 
 // gameInit is where the structure of a game is defined.
@@ -19,11 +20,10 @@ Empirica.gameInit(game => {
         _.pluck(game.players, "id")
     );
     game.set("justStarted", true);
-    game.set("contact", contact);
 
-    //const issueList =  // add shuffle if there are more settings
+    //const issueList =  // add shuffle if there are more local
     // get a list of issues
-    let issues = {};
+    let issues = [];
     let itemsOwnedBy = {};
     negotiationSetting[0].forEach((item) => {
         issues.push(item.name)
@@ -73,10 +73,11 @@ Empirica.gameInit(game => {
     stage.set("issues", issues);
     stage.set("itemsOwnedBy",itemsOwnedBy);
     stage.set("chatHistory",{});
+    stage.set("offerHistory",{});
     if (game.treatment.hasPrompt === "hasPrompt") {
         stage.set("prompts", negotiaitorPrompts);
     }
     // The players take actions by turns, start from the first player
-    stage.set("activePlayer", players[0].get("name"));
+    stage.set("activePlayer", game.players[0].get("name"));
 
 });

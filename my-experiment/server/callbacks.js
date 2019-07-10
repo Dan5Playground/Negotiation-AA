@@ -16,9 +16,10 @@ Empirica.onStageStart((game, round, stage, players) => {
     if (game.treatment.hasPrompt)
     {
         const prompts = stage.get("prompts");
+        console.log(prompts)
         players.forEach((player) => {
             player.set("goal", _.shuffle(prompts)[0]);
-            console.log("player "+player.get("name")+" get the prompt "+ player.get("goal").SVO);
+            console.log("player "+player.get("name")+" get the prompt "+ player.get("goal"));
         });
     }
 

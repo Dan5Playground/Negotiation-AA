@@ -1,12 +1,17 @@
 import Empirica from "meteor/empirica:core";
 import { render } from "react-dom";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+
+
 import ExitSurvey from "./exit/ExitSurvey";
 import Thanks from "./exit/Thanks";
 import About from "./game/About";
 import Round from "./game/Round";
 import Consent from "./intro/Consent";
-import InstructionStepOne from "./intro/InstructionStepOne";
-import InstructionStepTwo from "./intro/InstructionStepTwo";
+import GameOverview from "./intro/GameOverview";
+import InstructionOne from "./intro/InstructionOne";
+import Rewards from "./intro/Rewards";
 import Quiz from "./intro/Quiz";
 
 // Set the About Component you want to use for the About dialog (optional).
@@ -19,11 +24,7 @@ Empirica.consent(Consent);
 // At this point they have been assigned a treatment. You can return
 // different instruction steps depending on the assigned treatment.
 Empirica.introSteps((game, treatment) => {
-  const steps = [InstructionStepOne];
-  if (treatment.playerCount > 1) {
-    steps.push(InstructionStepTwo);
-  }
-  steps.push(Quiz);
+  const steps = [GameOverview,Rewards,InstructionOne, Quiz];
   return steps;
 });
 
