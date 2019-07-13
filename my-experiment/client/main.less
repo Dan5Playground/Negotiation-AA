@@ -57,30 +57,72 @@
   }
 
   .task {
-    align-content: right;
     padding: 4rem 4rem 0 4rem;
+    .task-stimulus{
+      .center{
+        text-align: center;
+      }
+      table{
+        margin-bottom : 2em;
+        display:inline-block;
+        text-align: center;
+      }
+    }
 
     .task-response {
-      margin: 3rem 0 0;
-
-      form {
-        width: 40rem;
-
-        button[type="submit"] {
-          margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      .board{
+        width: 50%;
+        height: 100%;
+        min-width: 50rem;
+        min-height: 36rem;
+        display: inline-block;
+        .basketName {
+          text-align: center;
         }
+        .basket {
+          position: relative;
+          flex-wrap: wrap;
+          // margin: -0.1rem -0.1rem 0 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 5rem;
+
+        }
+        .undecided {
+          background-color: #eee;
+        }
+        h6 {
+
+          color: #666;
+          justify-content: center;
+          align-items: center;
+        }
+        .chat-history{
+          height:26.5rem;
+          overflow: scroll;
+          img{
+            width: 2rem;
+          }
+          .system{
+            color: #aaa;
+          }
+        }
+        .input-box
+        {
+          margin-top:1rem;
+          button{
+            padding:0.4rem 0.4rem;
+            img{
+              width: 3rem;
+            }
+          }
+        }
+
       }
 
-      .response-submitted {
-        background-color: #e8e8e8;
-        padding: 2rem;
-        border-radius: 0.4rem;
-
-        h5 {
-          margin: 0 0 0.5rem;
-          font-size: inherit;
-        }
-      }
     }
   }
 
@@ -162,9 +204,12 @@ button {
     border-radius: 0.3rem;
     border: 1px solid lightgray;
   }
-}
-
-.exit-survey {
+  .center{
+    text-align: center;
+    img{
+      width: 30rem;
+    }
+  }
   .form-line {
     display: flex;
 
@@ -191,12 +236,12 @@ button {
   }
 }
 
+.exit-survey {
+
+}
+
 .finished {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  margin-top: 10rem;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,61 +1,72 @@
 import React from "react";
-import Slider from "meteor/empirica:slider";
+import Offer from "./Offer"
+import ChatBox from "./ChatBox"
 
 export default class TaskResponse extends React.Component {
-  handleChange = num => {
-    const { player } = this.props;
-    const value = Math.round(num * 100) / 100;
-    player.round.set("value", value);
-  };
+    handleTerminate = (e) => {
+        e.preventDefault();
+        // terminate the negotiation without agreement
+        const {game, stage, player} = this.props;
+        player.set("agree", false);
+        stage.append("chatHistory", {
+            text:  player.get("name") + " chooses to terminate the negotiation. Please press 'Terminate' " +
+                "button to proceed",
+            subject: "System",
+            target: "all",
+            type:"text"
+        });
+        game.players.forEach(player => {
+            player.stage.submit();
+        });
+    };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.player.stage.submit();
-  };
+    handleSendOffer = (otherPlayer, e) =>{
+        e.preventDefault();
+        const {stage, player} = this.props;
+        // only works for 2-player game
+        stage.set("activePlayer", otherPlayer.get("name"));
+        player.set("agree", "true");
+        // save the current offer to stage
+        stage.append("offerHistory", stage.get("itemsOwnedBy"));
 
-  renderSubmitted() {
-    return (
-      <div className="task-response">
-        <div className="response-submitted">
-          <h5>Waiting on other players...</h5>
-          Please wait until all players are ready
-        </div>
-      </div>
-    );
-  }
-
-  renderSlider() {
-    const { player } = this.props;
-    const value = player.round.get("value");
-    return (
-      <Slider
-        min={0}
-        max={1}
-        stepSize={0.01}
-        labelStepSize={0.25}
-        onChange={this.handleChange}
-        value={value}
-        hideHandleOnEmpty
-      />
-    );
-  }
-
+    };
   render() {
-    const { player } = this.props;
+      const { game, stage, player } = this.props;
+      // _.reject : get the other player
+      const otherPlayer = _.reject(game.players, p => p._id === player._id)[0];
+      let buttonText = "Send Offer";
+      game.players.forEach((p)=>{
+          if(p.get("agree"))
+          {
+              buttonText = "Accept Offer";
+          }
+      });
+      let disableTerminate = false;
+      if (stage.get("offerHistory").length < 6){
+          disableTerminate = true
+      }
 
-    // If the player already submitted, don't show the slider or submit button
-    if (player.stage.submitted) {
-      return this.renderSubmitted();
-    }
 
-    return (
-      <div className="task-response">
-        <form onSubmit={this.handleSubmit}>
-          {this.renderSlider()}
-
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
+      return (
+        <div>
+            <div className="task-response">
+              <Offer {...this.props} ></Offer>
+              <ChatBox {...this.props}></ChatBox>
+            </div>
+            <div className="control">
+                <button type="button"
+                        className={"bp3-button bp3-icon-exchange bp3-intent-success bp3-large"}
+                        onClick={this.handleSendOffer.bind(this, otherPlayer)}
+                        disabled = {stage.get("activePlayer") != player.get("name")}
+                >
+                    {buttonText}</button>
+                <button type="button"
+                        className={"bp3-button bp3-icon- bp3-intent-warning bp3-large"}
+                        onClick={this.handleTerminate.bind(this)}
+                        disabled={disableTerminate}>
+                    Terminate</button>
+            </div>
+        </div>
+      );
   }
 }

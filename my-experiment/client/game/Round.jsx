@@ -1,19 +1,24 @@
 import React from "react";
 
-import PlayerProfile from "./PlayerProfile.jsx";
-import SocialExposure from "./SocialExposure.jsx";
 import Task from "./Task.jsx";
 
+const gameSound = new Audio("resources/sound/bell.mp3");
+
 export default class Round extends React.Component {
+  componentDidMount() {
+        const { game } = this.props;
+        if (game.get("justStarted")) {
+            gameSound.play();
+            game.set("justStarted", false);
+        }};
+
   render() {
-    const { round, stage, player, game } = this.props;
+    const { stage, player, game } = this.props;
 
     return (
       <div className="round">
         <div className="content">
-          <PlayerProfile player={player} stage={stage} game={game} />
-          <Task game={game} round={round} stage={stage} player={player} />
-          <SocialExposure stage={stage} player={player} game={game} />
+          <Task game={game} stage={stage} player={player} />
         </div>
       </div>
     );

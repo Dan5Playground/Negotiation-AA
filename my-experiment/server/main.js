@@ -4,8 +4,6 @@ import "./callbacks.js";
 import {negotiaitorPrompts, negotiationSetting, BATNA} from "./constants";
 
 
-
-
 // gameInit is where the structure of a game is defined.
 // Just before every game starts, once all the players needed are ready, this
 // function is called with the treatment and the list of players.
@@ -15,7 +13,7 @@ import {negotiaitorPrompts, negotiationSetting, BATNA} from "./constants";
 // the game.
 Empirica.gameInit(game => {
     // log game info
-    console.log( "Game with a treatment: ", game.treatment,
+    console.log("Game in condition: ", game.treatment.hasPrompt,
         " will start, with workers",
         _.pluck(game.players, "id")
     );
@@ -26,10 +24,10 @@ Empirica.gameInit(game => {
     let issues = [];
     let itemsOwnedBy = {};
     negotiationSetting[0].forEach((item) => {
-        issues.push(item.name)
+        issues.push(item.name);
         _.times(item.quantity, j => {
             //stage.set("item-"+ item.name + j.toString()+"-belongTo", "deck");
-            itemsOwnedBy[item.name+j.toString()] = "undecided";
+            itemsOwnedBy[item.name + "-" + j.toString()] = "undecided";
         });
     });
 
@@ -42,13 +40,14 @@ Empirica.gameInit(game => {
 
     // init the players
     game.players.forEach((player, i) => {
-        player.set("name", "negotiator_"+i);
+        player.set("name", "negotiator_" + i);
         player.set("avatar", `/avatars/jdenticon/${avatarNames[i]}`);
         player.set("nameColor", nameColor[i]);
         player.set("points", 0);
+        player.set("agree", false);
         // For each player, set the value of all the issues
         // Note : different player may have different values
-        negotiationSetting[0].forEach((item)=>{
+        negotiationSetting[0].forEach((item) => {
             // set the value of the object
             // if both side has the same payoff value
             player.set(item.name, item.value[0]);
@@ -56,12 +55,13 @@ Empirica.gameInit(game => {
             //player.set(item.name, item.value[i]);
 
             // set the number of owned
-            player.set("own-"+item.name, 0);
+            player.set("own-" + item.name, 0);
         });
     });
 
     // this game has one round with one stage only
     const round = game.addRound();
+    let duration = 0;
     // add stage to round
     const stage = round.addStage({
         name: "negotiation",
@@ -71,10 +71,15 @@ Empirica.gameInit(game => {
     // bind stage-wise variables
     //
     stage.set("issues", issues);
-    stage.set("itemsOwnedBy",itemsOwnedBy);
-    stage.set("chatHistory",{});
-    stage.set("offerHistory",{});
-    if (game.treatment.hasPrompt === "hasPrompt") {
+    stage.set("itemsOwnedBy", itemsOwnedBy);
+    stage.set("chatHistory", [{
+        target: "all",
+        text: "Welcome to the negotiation game.",
+        subject: "System",
+        type: "text"
+    }]);
+    stage.set("offerHistory", []);
+    if (game.treatment.hasPrompt === true) {
         stage.set("prompts", negotiaitorPrompts);
     }
     // The players take actions by turns, start from the first player

@@ -16,10 +16,9 @@ Empirica.onStageStart((game, round, stage, players) => {
     if (game.treatment.hasPrompt)
     {
         const prompts = stage.get("prompts");
-        console.log(prompts)
         players.forEach((player) => {
             player.set("goal", _.shuffle(prompts)[0]);
-            console.log("player "+player.get("name")+" get the prompt "+ player.get("goal"));
+            console.log("player "+player.get("id")+" get the prompt "+ player.get("goal").SVO);
         });
     }
 
@@ -81,13 +80,12 @@ Empirica.onSet((
   // }
     let players = game.players;
     if (key === "agree") {
-        console.log(player);
         //check if everyone is satisfied
         let allSatisfied = true;
         players.forEach(player => {
             allSatisfied = player.get("agree") && allSatisfied;
         });
-        // If so, submitconsole.log( their answer
+        // If so, terminate the game
         if (allSatisfied) {
             console.log("They all agree");
             players.forEach(player => {

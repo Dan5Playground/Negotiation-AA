@@ -9,7 +9,7 @@ export const negotiaitorPrompts = [
         },
         {
             "SVO":"an individualistic player",
-            "goal" : "get more points than the other player",
+            "goal" : "get as many points as possible",
             "frame1" : "Each point you have at the end of the game will give you one entry into a lottery on" +
                 " MTurk for one of several $10 bonus prizes",
             "frame2":"So, the more points you have, the more likely you are to win!"
@@ -36,4 +36,12 @@ export const negotiationSetting = [
         {name:"ball", quantity: 5, value: [4,1]}]
 ];
 
+export const systemMessages = {
+    waiting : "Please wait for the other player's response. ",
+    active_long: "It's your turn. You could make a new offer, accept current offer" +
+        " or send message to the other player. Click 'Accept/Send Offer' button when you finish. ",
+    accept: "The other player accept the offer. You could press the 'Accept" +
+        " offer' button to finish the negotiation or continue make changes.",
+    active : "It's your turn now. "
+};
 

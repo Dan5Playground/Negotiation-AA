@@ -69,7 +69,7 @@ export default class InstructionOne extends React.Component {
                       </p>
                   </li>:null
                   }
-              <li>
+              <li>f
                   <div>
                       <p>
                           <strong>Drag and drop</strong> the objects to either your or the other player's basket to make an
@@ -81,9 +81,12 @@ export default class InstructionOne extends React.Component {
               </li>
               <li>
                   <p>
-                      <strong>Communicate with the other player</strong> using the chat box. You could also press
+                      <strong>Communicate with the other player</strong> using the chat box, as shown below. You could also press
                           the shortcut key to send emojis. Note: you could only send messages when it's your turn.
                   </p>
+                  <div className="center">
+                      <img  src={"./resources/UI/chatbox.png"} alt = "chatbox"/>
+                  </div>
               </li>
               <li>
                   <p>

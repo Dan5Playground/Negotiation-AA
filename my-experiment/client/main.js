@@ -1,5 +1,5 @@
 import Empirica from "meteor/empirica:core";
-import { render } from "react-dom";
+import {render} from "react-dom";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 
@@ -13,6 +13,7 @@ import GameOverview from "./intro/GameOverview";
 import InstructionOne from "./intro/InstructionOne";
 import Rewards from "./intro/Rewards";
 import Quiz from "./intro/Quiz";
+import Sorry from "./exit/Sorry";
 
 // Set the About Component you want to use for the About dialog (optional).
 Empirica.about(About);
@@ -23,9 +24,15 @@ Empirica.consent(Consent);
 // Introduction pages to show before they play the game (optional).
 // At this point they have been assigned a treatment. You can return
 // different instruction steps depending on the assigned treatment.
-Empirica.introSteps((game, treatment) => {
-  const steps = [GameOverview,Rewards,InstructionOne, Quiz];
-  return steps;
+Empirica.introSteps((game) => {
+    let steps = [];
+    if (game.treatment.mode === '0') {
+        steps = [];
+    }
+    else {
+        steps = [GameOverview, Rewards, InstructionOne, Quiz];
+    }
+    return steps;
 });
 
 // The Round component containing the game UI logic.
@@ -42,7 +49,12 @@ Empirica.round(Round);
 // If you don't return anything, or do not define this function, a default
 // exit screen will be shown.
 Empirica.exitSteps((game, player) => {
-  return [ExitSurvey, Thanks];
+    if (player.exitStatus !== "finished") {
+        return [Sorry];
+    }
+    else {
+        return [ExitSurvey, Thanks];
+    }
 });
 
 // Start the app render tree.
@@ -50,5 +62,5 @@ Empirica.exitSteps((game, player) => {
 // Empirica.introSteps(), ...).
 // It is required and usually does not need changing.
 Meteor.startup(() => {
-  render(Empirica.routes(), document.getElementById("app"));
+    render(Empirica.routes(), document.getElementById("app"));
 });

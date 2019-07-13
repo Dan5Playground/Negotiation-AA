@@ -115,7 +115,8 @@ export default class Quiz extends React.Component {
             </div>
               {game.treatment.hasPrompt?
                   <RadioGroup
-                      label="4. Which of the following negotiation outcome is the best for an cooperative player A?"
+                      label="4. Which of the following negotiation outcome is the best for a cooperative player A who
+                      thinks fairness is the most important thing?"
                       onChange={this.handleChange}
                       selectedValue={this.state.bestoutcome}
                       name="bestoutcome"
